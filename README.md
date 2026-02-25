@@ -26,6 +26,9 @@ git clone https://github.com/YOUR_USERNAME/admission-crm-ui.git
 cd admission-crm-ui
 npm install
 
+### 2. Server start
+npm run dev
+
 🤖 AI Disclosure
 This project was built with assistance from Perplexity AI for:
 
