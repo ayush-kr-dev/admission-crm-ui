@@ -90,12 +90,24 @@ const ApplicantForm = () => {
     return true;
   };
 
+  const transformApplicantData = (formData) => {
+    return {
+      ...formData,
+      marks_obtained: formData.marks_obtained === '' ? null : parseInt(formData.marks_obtained, 10),
+      max_marks: formData.max_marks === '' ? null : parseInt(formData.max_marks, 10),
+      program_id: parseInt(formData.program_id, 10),
+      academic_year_id: parseInt(formData.academic_year_id, 10),
+    };
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
+
     setLoading(true);
     try {
-      await API.post('/applicants', form);
+      const applicantData = transformApplicantData(form);
+      await API.post('/applicants', applicantData);
       toast.success('Applicant created successfully!');
       navigate('/applicants');
     } catch (err) {
@@ -109,7 +121,6 @@ const ApplicantForm = () => {
 
   return (
     <div className="space-y-6">
-
       {/* Header */}
       <div className="flex items-center gap-3">
         <button
@@ -126,14 +137,12 @@ const ApplicantForm = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="bg-white rounded-xl shadow-sm p-6 space-y-6">
-
           {/* ── PERSONAL DETAILS ── */}
           <div>
             <h2 className="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-4">
               Personal Details
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
               {/* 1. Full Name */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Full Name <span className="text-red-500">*</span></label>
@@ -185,7 +194,6 @@ const ApplicantForm = () => {
                   placeholder="Bengaluru, Karnataka"
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
-
             </div>
           </div>
 
@@ -195,7 +203,6 @@ const ApplicantForm = () => {
               Admission Details
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
               {/* 7. Category */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Category <span className="text-red-500">*</span></label>
@@ -268,7 +275,6 @@ const ApplicantForm = () => {
                   )}
                 </select>
               </div>
-
             </div>
           </div>
 
@@ -278,7 +284,6 @@ const ApplicantForm = () => {
               Academic Details
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-
               {/* 10. Qualifying Exam */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Qualifying Exam</label>
@@ -302,7 +307,6 @@ const ApplicantForm = () => {
                   placeholder="600"
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
-
             </div>
           </div>
 
@@ -322,7 +326,6 @@ const ApplicantForm = () => {
               Cancel
             </button>
           </div>
-
         </div>
       </form>
     </div>
